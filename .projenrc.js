@@ -37,7 +37,7 @@ class PoetryWorkflow extends GithubWorkflow {
       },
       {
         name: "set up Python ${{ matrix.python-version }}",
-        uses: "actions/checkout@v2",
+        uses: "actions/setup-python@v2",
         with: {
           "python-version": "${{ matrix.python-version }}",
         },
@@ -77,7 +77,7 @@ class PoetryWorkflow extends GithubWorkflow {
       {
         name: "ensure cache is healthy",
         if: "steps.cache.outputs.cache-hit == 'true'",
-        run: "poetry run pip --version || rm -rf .venv",
+        run: "timeout 10s poetry run pip --version || rm -rf .venv",
       },
     ];
 
