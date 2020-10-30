@@ -77,6 +77,7 @@ class PoetryWorkflow extends GithubWorkflow {
       {
         name: "ensure cache is healthy",
         if: "steps.cache.outputs.cache-hit == 'true'",
+        shell: "bash",
         run: "timeout 10s poetry run pip --version || rm -rf .venv",
       },
     ];

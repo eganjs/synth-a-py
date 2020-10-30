@@ -55,6 +55,7 @@ jobs:
             hashFiles('**/poetry.lock') }}
       - name: ensure cache is healthy
         if: steps.cache.outputs.cache-hit == 'true'
+        shell: bash
         run: timeout 10s poetry run pip --version || rm -rf .venv
       - name: lint
         run: make lint
@@ -110,6 +111,7 @@ jobs:
             hashFiles('**/poetry.lock') }}
       - name: ensure cache is healthy
         if: steps.cache.outputs.cache-hit == 'true'
+        shell: bash
         run: timeout 10s poetry run pip --version || rm -rf .venv
       - name: test
         run: make test
