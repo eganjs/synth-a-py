@@ -20,7 +20,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: set up Python ${{ matrix.python-version }}
-        uses: actions/checkout@v2
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: get full Python version
@@ -52,7 +52,8 @@ jobs:
             hashFiles('**/poetry.lock') }}
       - name: ensure cache is healthy
         if: steps.cache.outputs.cache-hit == 'true'
-        run: poetry run pip --version || rm -rf .venv
+        shell: bash
+        run: timeout 10s poetry run pip --version || rm -rf .venv
       - name: get tag
         id: tag
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
