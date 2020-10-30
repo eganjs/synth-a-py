@@ -1,13 +1,13 @@
 from abc import abstractmethod
 from pathlib import Path
-from typing import Final, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
 
 from .spec import Spec
 
 
 class File(Spec):
     def __init__(self, name: str):
-        self.name: Final[str] = name
+        self.name = name
 
     @abstractmethod
     def _synth_content(self) -> str:
@@ -30,7 +30,7 @@ class EmptyFile(File):
 class SimpleFile(File):
     def __init__(self, name: str, content: Union[str, Tuple[str, ...]]):
         super().__init__(name)
-        self.content: Final[Union[str, Tuple[str, ...]]] = content
+        self.content = content
 
     def __ensure_new_line(self, s: str) -> str:
         return s if s.endswith("\n") else s + "\n"
