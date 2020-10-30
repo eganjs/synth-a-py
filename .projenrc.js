@@ -10,7 +10,7 @@ const {
 
 class File extends FileBase {
   constructor(project, name, options) {
-    super(project, name);
+    super(project, name, options);
 
     this.content = options && options.content ? options.content : [];
   }
@@ -132,6 +132,7 @@ class PoetryProject extends Project {
 
     new File(this, `${srcDir}/__init__.py`, {
       content: [`__version__ = "${options.version}"`],
+      readonly: false,
     });
 
     new File(this, `${srcDir}/py.typed`);
