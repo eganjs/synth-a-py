@@ -22,9 +22,9 @@ publish: dist
 	poetry publish
 
 .PHONY: dist
-dist: dist/synth-a-py-0.1.0.tar.gz dist/synth_a_py-0.1.0-py3-none-any.whl
+dist: dist/synth-a-py-0.2.0.tar.gz dist/synth_a_py-0.2.0-py3-none-any.whl
 
-dist/synth-a-py-0.1.0.tar.gz dist/synth_a_py-0.1.0-py3-none-any.whl: $(shell find synth_a_py -type f -name '*.py')
+dist/synth-a-py-0.2.0.tar.gz dist/synth_a_py-0.2.0-py3-none-any.whl: $(shell find synth_a_py -type f -name '*.py')
 	poetry build
 
 .venv: poetry.lock
