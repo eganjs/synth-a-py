@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "synth-a-py"
-version = "0.2.0"
+version = "1.0.0"
 description = "Project configuration as code"
 authors = [ "Joseph Egan <joseph.s.egan@gmail.com>" ]
 license = "MIT"
@@ -13,6 +13,7 @@ readme = "README.md"
 
   [tool.poetry.dependencies]
   python = "^3.6"
+  returns = "^0.14.0"
 
   [tool.poetry.dev-dependencies]
   black = "^20.8b1"
@@ -22,3 +23,4 @@ readme = "README.md"
   pyprojroot = "^0.2.0"
   pytest = "^6"
   toml = "^0.10.1"
+  jedi = "^0.17.2"
