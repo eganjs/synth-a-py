@@ -32,7 +32,8 @@ def test_no_arg_project(tmp_path: Path) -> None:
 
 
 def test_get_context_in_with() -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         context = _context_get()
 
     assert spec == context
@@ -52,31 +53,29 @@ def test_get_context_after_with() -> None:
 
 
 def test_example_project(tmp_path: Path) -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         with Dir("src"):
-            SimpleFile(
-                "__init__.py",
-                init_content := dedent(
-                    """\
-                    __version__ = "0.1.0"
-                    """
-                ),
+            init_content = dedent(
+                """\
+                __version__ = "0.1.0"
+                """
             )
+            SimpleFile("__init__.py", init_content)
 
         with Dir("tests"):
-            SimpleFile(
-                "test_version.py",
-                test_content := dedent(
-                    """\
-                    from src import __version__
+            test_content = dedent(
+                """\
+                from src import __version__
 
-                    def test_version():
-                        assert __version__ == "0.1.0"
-                    """
-                ),
+                def test_version():
+                    assert __version__ == "0.1.0"
+                """
             )
+            SimpleFile("test_version.py", test_content)
 
-    spec.synth(project_path := tmp_path / "my-project")
+    project_path = tmp_path / "my-project"
+    spec.synth(project_path)
 
     assert (project_path / "src" / "__init__.py").read_text() == init_content
     assert (project_path / "tests" / "test_version.py").read_text() == test_content

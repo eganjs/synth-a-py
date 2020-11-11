@@ -5,7 +5,8 @@ from synth_a_py import EmptyFile, Project, SimpleFile
 
 
 def test_empty_file(tmp_path: Path) -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         EmptyFile("empty-file")
 
     spec.synth(tmp_path)
@@ -14,7 +15,8 @@ def test_empty_file(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_string(tmp_path: Path) -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         SimpleFile("file", "test content\n")
 
     spec.synth(tmp_path)
@@ -23,7 +25,8 @@ def test_simple_file_from_string(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_string_with_no_new_line(tmp_path: Path) -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         SimpleFile("file", "test content")
 
     spec.synth(tmp_path)
@@ -32,7 +35,8 @@ def test_simple_file_from_string_with_no_new_line(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_list(tmp_path: Path) -> None:
-    with (spec := Project()):
+    spec = Project()
+    with spec:
         SimpleFile(
             "file",
             (
