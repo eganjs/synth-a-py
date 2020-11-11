@@ -3,7 +3,7 @@ all: lint test
 
 .PHONY: lint
 lint: .venv
-	MYPYPATH=./stubs poetry run mypy --strict synth_a_py tests
+	MYPYPATH=./stubs poetry run mypy synth_a_py tests
 	poetry run flake8 synth_a_py tests
 	poetry run isort --check-only --profile black synth_a_py tests
 	poetry run black --check --diff synth_a_py tests

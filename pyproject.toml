@@ -15,6 +15,10 @@ readme = "README.md"
   python = "^3.6"
   returns = "^0.14.0"
 
+    [tool.poetry.dependencies.contextvars]
+    version = "^2.4"
+    python = "~3.6"
+
   [tool.poetry.dev-dependencies]
   black = "^20.8b1"
   flake8 = "^3.8.4"

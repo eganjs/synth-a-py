@@ -553,6 +553,10 @@ const project = new PoetryProject({
   dependencies: {
     python: "^3.6",
     returns: "^0.14.0",
+    contextvars: {
+      version: "^2.4",
+      python: "~3.6",
+    },
   },
   devDependencies: {
     jedi: "^0.17.2",
