@@ -1,13 +1,12 @@
-__version__ = "0.2.0"
+__version__ = "1.0.0"
 
-from .file import EmptyFile, File, SimpleFile
-from .project import Project
-from .spec import Spec
+from .base import Dir, File, Project
+from .file import EmptyFile, SimpleFile
 
 __all__ = [
+    "Dir",
     "EmptyFile",
     "File",
     "Project",
     "SimpleFile",
-    "Spec",
 ]

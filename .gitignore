@@ -12,6 +12,8 @@ node_modules/
 !/tests/__init__.py
 !/tests/test_version.py
 !/stubs/pyprojroot.pyi
+!/.flake8
+!/.mypy.ini
 !/pyproject.toml
 !/poetry.toml
 !/LICENSE

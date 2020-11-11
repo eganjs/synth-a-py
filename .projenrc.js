@@ -160,6 +160,18 @@ class PoetryProject extends Project {
       ],
     });
 
+    new File(this, ".flake8", {
+      content: ["[flake8]", "max-line-length = 88", "extend-ignore = E203"],
+    });
+
+    new File(this, ".mypy.ini", {
+      content: [
+        "[mypy]",
+        "strict = True",
+        "plugins = returns.contrib.mypy.returns_plugin",
+      ],
+    });
+
     new TomlFile(this, "pyproject.toml", {
       obj: {
         ["build-system"]: {
@@ -213,7 +225,7 @@ class PoetryProject extends Project {
           targets: ["lint"],
           prerequisites: [".venv"],
           recipe: [
-            `MYPYPATH=./stubs poetry run mypy --strict ${srcDir} tests`,
+            `MYPYPATH=./stubs poetry run mypy ${srcDir} tests`,
             `poetry run flake8 ${srcDir} tests`,
             `poetry run isort --check-only --profile black ${srcDir} tests`,
             `poetry run black --check --diff ${srcDir} tests`,
@@ -534,14 +546,21 @@ class PoetryProject extends Project {
 
 const project = new PoetryProject({
   name: "synth-a-py",
-  version: "0.2.0",
+  version: "1.0.0",
   description: "Project configuration as code",
   authors: ["Joseph Egan <joseph.s.egan@gmail.com>"],
   repository: "https://github.com/eganjs/synth-a-py",
   dependencies: {
     python: "^3.6",
+    returns: "^0.14.0",
+    contextvars: {
+      version: "^2.4",
+      python: "~3.6",
+    },
   },
-  devDependencies: {},
+  devDependencies: {
+    jedi: "^0.17.2",
+  },
   license: "MIT",
   copyrightOwner: "Joseph Egan",
   copyrightPeriod: "2020",

@@ -3,7 +3,7 @@ all: lint test
 
 .PHONY: lint
 lint: .venv
-	MYPYPATH=./stubs poetry run mypy --strict synth_a_py tests
+	MYPYPATH=./stubs poetry run mypy synth_a_py tests
 	poetry run flake8 synth_a_py tests
 	poetry run isort --check-only --profile black synth_a_py tests
 	poetry run black --check --diff synth_a_py tests
@@ -22,9 +22,9 @@ publish: dist
 	poetry publish
 
 .PHONY: dist
-dist: dist/synth-a-py-0.2.0.tar.gz dist/synth_a_py-0.2.0-py3-none-any.whl
+dist: dist/synth-a-py-1.0.0.tar.gz dist/synth_a_py-1.0.0-py3-none-any.whl
 
-dist/synth-a-py-0.2.0.tar.gz dist/synth_a_py-0.2.0-py3-none-any.whl: $(shell find synth_a_py -type f -name '*.py')
+dist/synth-a-py-1.0.0.tar.gz dist/synth_a_py-1.0.0-py3-none-any.whl: $(shell find synth_a_py -type f -name '*.py')
 	poetry build
 
 .venv: poetry.lock
