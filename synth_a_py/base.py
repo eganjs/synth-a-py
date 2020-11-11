@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from abc import abstractmethod
 from contextvars import ContextVar, Token
 from pathlib import Path
@@ -22,11 +20,11 @@ class _FileContainerMixin:
     def __init__(self) -> None:
         self.__store: Dict[str, Union[File, Dir]] = dict()
 
-    def add(self, item: Union[File, Dir]) -> None:
+    def add(self, item: Union["File", "Dir"]) -> None:
         assert item.name not in self.__store
         self.__store[item.name] = item
 
-    def walk(self) -> Iterator[Tuple[PathResolver, File]]:
+    def walk(self) -> Iterator[Tuple[PathResolver, "File"]]:
         item: Union[File, Dir]
         for item in self.__store.values():
 
