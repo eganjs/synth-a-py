@@ -546,7 +546,7 @@ class PoetryProject extends Project {
 
 const project = new PoetryProject({
   name: "synth-a-py",
-  version: "1.0.0",
+  version: "1.1.0",
   description: "Project configuration as code",
   authors: ["Joseph Egan <joseph.s.egan@gmail.com>"],
   repository: "https://github.com/eganjs/synth-a-py",
