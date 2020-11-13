@@ -168,6 +168,7 @@ class PoetryProject extends Project {
       content: [
         "[mypy]",
         "strict = True",
+        "mypy_path = stubs",
         "plugins = returns.contrib.mypy.returns_plugin",
       ],
     });
@@ -225,7 +226,7 @@ class PoetryProject extends Project {
           targets: ["lint"],
           prerequisites: [".venv"],
           recipe: [
-            `MYPYPATH=./stubs poetry run mypy ${srcDir} tests`,
+            `poetry run mypy ${srcDir} tests`,
             `poetry run flake8 ${srcDir} tests`,
             `poetry run isort --check-only --profile black ${srcDir} tests`,
             `poetry run black --check --diff ${srcDir} tests`,
