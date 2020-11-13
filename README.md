@@ -6,7 +6,7 @@ Project configuration as code
 
 ## Example usage
 
-```
+```python
 #!/usr/bin/env python
 from textwrap import dedent
 
