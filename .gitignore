@@ -20,5 +20,4 @@ node_modules/
 !/Makefile
 !/.github/workflows/ci.yml
 !/.github/workflows/publish.yml
-!/README.md
 !/CONTRIBUTING.md
