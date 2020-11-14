@@ -117,8 +117,12 @@ class Project(_ContextMixin):
 
             path.parent.mkdir(parents=True, exist_ok=True)
 
-            path.write_text(f.synth_content())
+            # ensure writable
+            if path.is_file():
+                path.chmod(0o644)
 
+            # write and mark read only
+            path.write_text(f.synth_content())
             path.chmod(0o444)
 
 

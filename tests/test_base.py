@@ -79,3 +79,29 @@ def test_example_project(tmp_path: Path) -> None:
 
     assert (project_path / "src" / "__init__.py").read_text() == init_content
     assert (project_path / "tests" / "test_version.py").read_text() == test_content
+
+
+def test_subsequent_synth(tmp_path: Path) -> None:
+    project_path = tmp_path / "my-project"
+
+    # first pass
+    spec = Project()
+    with spec:
+        with Dir("subdir"):
+            SimpleFile("file.txt", "Hello, World!")
+
+    spec.synth(project_path)
+
+    assert (project_path / "subdir" / "file.txt").read_text() == "Hello, World!\n"
+    assert (project_path / "subdir" / "file.txt").lstat().st_mode & 0o777 == 0o444
+
+    # second pass
+    spec = Project()
+    with spec:
+        with Dir("subdir"):
+            SimpleFile("file.txt", "Hello, synth-a-py!")
+
+    spec.synth(project_path)
+
+    assert (project_path / "subdir" / "file.txt").read_text() == "Hello, synth-a-py!\n"
+    assert (project_path / "subdir" / "file.txt").lstat().st_mode & 0o777 == 0o444
