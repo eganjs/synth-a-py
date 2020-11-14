@@ -543,6 +543,7 @@ const project = new PoetryProject({
       version: "^2.4",
       python: "~3.6",
     },
+    "ruamel.yaml": "^0.16.12",
   },
   devDependencies: {
     jedi: "^0.17.2",
