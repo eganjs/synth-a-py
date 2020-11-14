@@ -546,6 +546,7 @@ const project = new PoetryProject({
   },
   devDependencies: {
     jedi: "^0.17.2",
+    "typing-extensions": "^3.7.4.3",
   },
   license: "MIT",
   copyrightOwner: "Joseph Egan",

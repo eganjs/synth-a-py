@@ -1,5 +1,7 @@
 from textwrap import dedent
-from typing import Literal, Type
+from typing import Type
+
+from typing_extensions import Literal
 
 from .base import File
 
