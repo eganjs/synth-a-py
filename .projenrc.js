@@ -532,7 +532,7 @@ class PoetryProject extends Project {
 
 const project = new PoetryProject({
   name: "synth-a-py",
-  version: "1.3.1",
+  version: "1.4.0",
   description: "Project configuration as code",
   authors: ["Joseph Egan <joseph.s.egan@gmail.com>"],
   repository: "https://github.com/eganjs/synth-a-py",
@@ -543,6 +543,7 @@ const project = new PoetryProject({
       version: "^2.4",
       python: "~3.6",
     },
+    "ruamel.yaml": "^0.16.12",
     toml: "^0.10.1",
   },
   devDependencies: {

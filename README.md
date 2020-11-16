@@ -4,38 +4,44 @@
 
 Project configuration as code
 
+## Goals
+
+- [ ] Use synth-a-py to manage project configs
+  - Add support for:
+    - [x] LICENSE
+    - [x] TOML (for pyproject.toml)
+    - [x] YAML (for GitHub Actions config)
+      - [ ] GitHub Action workflow?
+    - [ ] INI (for flake8/mypy config)
+    - [ ] Makefile
+    - [ ] .gitignore
+  - Add ./synth.py
+- Templates:
+  - [ ] Poetry
+  - [ ] setup.py
+  - [ ] Pipenv
+- In-repo examples:
+  - [ ] Minimal
+  - [ ] Monorepo
+
 ## Example usage
 
 ```python
 #!/usr/bin/env python
 from textwrap import dedent
 
-from synth_a_py import Dir, Project, SimpleFile, TomlFile
+from synth_a_py import Dir, License, Project, SimpleFile, TomlFile, YamlFile
+
+authors = ["Joseph Egan"]
 
 project_name = "sample-project"
+project_description = "A sample project generated using synth-a-py"
 project_version = "0.1.0"
+
 project_import = project_name.lower().replace("-", "_")
 
 spec = Project()
 with spec:
-    with Dir(".github"):
-        with Dir("workflows"):
-            SimpleFile(
-                "ci.yml",
-                dedent(
-                    """\
-                    ...
-                    """
-                ),
-            )
-            SimpleFile(
-                "publish.yml",
-                dedent(
-                    """\
-                    ...
-                    """
-                ),
-            )
 
     TomlFile(
         "pyproject.toml",
@@ -48,18 +54,38 @@ with spec:
                 "poetry": {
                     "name": project_name,
                     "version": project_version,
-                    "description": "A sample project generated using synth-a-py",
-                    "authors": ["Joseph Egan"],
+                    "description": project_description,
+                    "authors": authors,
+                    "license": "MIT",
                     "dependencies": {
                         "python": "^3.6",
                     },
                     "dev-dependencies": {
                         "pytest": "^6",
                         "pyprojroot": "^0.2.0",
+                        "synth-a-py": "../synth-a-py",
                     },
                 },
             },
         },
+    )
+
+    License.MIT("2020", ", ".join(authors))
+
+    SimpleFile(
+        ".gitignore",
+        dedent(
+            """\
+            *.egg
+            *.egg-info/
+            *.pyc
+            .cache/
+            .idea/
+            .mypy_cache/
+            .venv/
+            dist/
+            """
+        ),
     )
 
     SimpleFile(
@@ -70,6 +96,10 @@ with spec:
             test:
             \tpoetry install
             \tpoetry run pytest
+
+            .PHONEY: synth
+            synth:
+            \tpoetry run ./synth.py
             """
         ),
     )
@@ -89,43 +119,65 @@ with spec:
             "test_version.py",
             dedent(
                 f"""\
-		import toml
-		from pyprojroot import here
+                import toml
+                from pyprojroot import here
 
-		from {project_import} import __version__
+                from {project_import} import __version__
 
 
-		def test_version() -> None:
-		    pyproject = toml.load(here("pyproject.toml"))
-		    pyproject_version = pyproject["tool"]["poetry"]["version"]
+                def test_version() -> None:
+                    pyproject = toml.load(here("pyproject.toml"))
+                    pyproject_version = pyproject["tool"]["poetry"]["version"]
 
-		    assert __version__ == pyproject_version
+                    assert __version__ == pyproject_version
                 """
             ),
         )
 
+    with Dir(".github"):
+        with Dir("workflows"):
+            YamlFile(
+                "ci.yml",
+                {
+                    "name": "ci",
+                    "on": {
+                        "pull_request": {
+                            "branches": ["main"],
+                        },
+                        "push": {"branches": ["main"]},
+                    },
+                    "jobs": {
+                        "test": {
+                            "runs-on": "ubuntu-latest",
+                            "steps": [
+                                {
+                                    "name": "checkout",
+                                    "uses": "actions/checkout@v2",
+                                },
+                                {
+                                    "name": "setup Python",
+                                    "uses": "actions/setup-python@v2",
+                                    "with": {
+                                        "python-version": "3.9",
+                                    },
+                                },
+                                {
+                                    "name": "test",
+                                    "run": dedent(
+                                        """\
+                                        pip install poetry
+                                        make test
+                                        """
+                                    ),
+                                },
+                            ],
+                        },
+                    },
+                },
+            )
+
 spec.synth()
 ```
-
-## Goals
-
-- [ ] Use synth-a-py to manage project configs
-  - Add support for:
-    - [x] LICENSE
-    - [x] TOML (for pyproject.toml)
-    - [ ] YAML (for GitHub Actions config)
-      - [ ] GitHub Action workflow?
-    - [ ] INI (for flake8/mypy config)
-    - [ ] Makefile
-    - [ ] .gitignore
-  - Add ./synth.py
-- Templates:
-  - [ ] Poetry
-  - [ ] setup.py
-  - [ ] Pipenv
-- In-repo examples:
-  - [ ] Minimal
-  - [ ] Monorepo
 
 ## Updating project config
 
