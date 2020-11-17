@@ -4,6 +4,8 @@ import toml
 
 from .base import File
 
+__all__ = ["TomlFile"]
+
 
 class TomlFile(File):
     def __init__(self, name: str, obj: Any):
