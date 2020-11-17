@@ -3,7 +3,6 @@ from io import StringIO
 from typing import Any
 
 from .base import File
-
 from .utils import ensure_nl
 
 __all__ = ["IniFile"]
