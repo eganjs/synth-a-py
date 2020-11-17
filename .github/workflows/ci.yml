@@ -37,7 +37,7 @@ jobs:
           https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
           | python
 
-          echo "::add-path::$HOME/.poetry/bin"
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: install Poetry using pwsh
         if: matrix.os == 'windows'
         run: >-
@@ -45,7 +45,7 @@ jobs:
           https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
           -UseBasicParsing).Content | python
 
-          echo "::add-path::$HOME/.poetry/bin"
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: set up cache
         uses: actions/cache@v2
         id: cache
@@ -93,7 +93,7 @@ jobs:
           https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
           | python
 
-          echo "::add-path::$HOME/.poetry/bin"
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: install Poetry using pwsh
         if: matrix.os == 'windows'
         run: >-
@@ -101,7 +101,7 @@ jobs:
           https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
           -UseBasicParsing).Content | python
 
-          echo "::add-path::$HOME/.poetry/bin"
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
       - name: set up cache
         uses: actions/cache@v2
         id: cache

@@ -53,7 +53,7 @@ class PoetryWorkflow extends GithubWorkflow {
         if: "matrix.os == 'ubuntu' || matrix.os == 'macos'",
         run: [
           "curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python",
-          'echo "::add-path::$HOME/.poetry/bin"',
+          'echo "$HOME/.poetry/bin" >> $GITHUB_PATH',
         ].join("\n"),
       },
       {
@@ -61,7 +61,7 @@ class PoetryWorkflow extends GithubWorkflow {
         if: "matrix.os == 'windows'",
         run: [
           "(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python",
-          'echo "::add-path::$HOME/.poetry/bin"',
+          'echo "$HOME/.poetry/bin" >> $GITHUB_PATH',
         ].join("\n"),
       },
       {
