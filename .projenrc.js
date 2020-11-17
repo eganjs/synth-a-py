@@ -61,7 +61,7 @@ class PoetryWorkflow extends GithubWorkflow {
         if: "matrix.os == 'windows'",
         run: [
           "(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python",
-          'echo "$HOME/.poetry/bin" >> $GITHUB_PATH',
+          'echo "$HOME/.poetry/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append',
         ].join("\n"),
       },
       {
