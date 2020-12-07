@@ -1,6 +1,7 @@
 from typing import Tuple, Union
 
 from .base import File
+from .utils import ensure_nl
 
 __all__ = [
     "EmptyFile",
@@ -18,13 +19,10 @@ class SimpleFile(File):
         super().__init__(name)
         self.content = content
 
-    def __ensure_new_line(self, s: str) -> str:
-        return s if s.endswith("\n") else s + "\n"
-
     def synth_content(self) -> str:
         if isinstance(self.content, str):
-            return self.__ensure_new_line(self.content)
+            return ensure_nl(self.content)
         elif isinstance(self.content, tuple):
-            return "".join(map(self.__ensure_new_line, self.content))
+            return "".join(map(ensure_nl, self.content))
 
         raise TypeError(f"Unexpected type: {type(self.content)}")

@@ -12,7 +12,7 @@ Project configuration as code
     - [x] TOML (for pyproject.toml)
     - [x] YAML (for GitHub Actions config)
       - [ ] GitHub Action workflow?
-    - [ ] INI (for flake8/mypy config)
+    - [x] INI (for flake8/mypy config)
     - [ ] Makefile
     - [ ] .gitignore
   - Add ./synth.py
