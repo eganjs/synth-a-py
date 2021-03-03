@@ -4,11 +4,7 @@
 
 Daring to tackle the problem of complex project configuration through code!
 
-_synth-a-py_ is a framework to enable synthesising of project configuration using Python :snake:
-
-The framework provides the means to define a project with multiple modules, that when synthesised, creates files such as `pyproject.toml`, `.github/workflows/{ci,cd}.yml` and `makefile`, all in the right places with consistency.
-
-Although the project is written in Python, it is not limited to generating Python projects. Theoretically, it could be used for any problem that requires consistency between two or more files.
+_synth-a-py_ provides APIs to easily describe and compose configuration files, enabling complete configuration management for projects in Python :snake:
 
 ## Example usage
 
