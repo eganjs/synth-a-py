@@ -2,30 +2,20 @@
 
 ![Build](https://github.com/eganjs/synth-a-py/workflows/ci/badge.svg)
 
-Project configuration as code
+Daring to tackle the problem of complex project configuration through code!
 
-## Goals
-
-- [ ] Use synth-a-py to manage project configs
-  - Add support for:
-    - [x] LICENSE
-    - [x] TOML (for pyproject.toml)
-    - [x] YAML (for GitHub Actions config)
-      - [ ] GitHub Action workflow?
-    - [x] INI (for flake8/mypy config)
-    - [ ] Makefile
-    - [ ] .gitignore
-  - Add ./synth.py
-- Templates:
-  - [ ] Poetry
-  - [ ] setup.py
-  - [ ] Pipenv
-- In-repo examples:
-  - [ ] Minimal
-  - [ ] Monorepo
+_synth-a-py_ provides APIs to easily describe and compose configuration files, enabling complete configuration management for projects in Python :snake:
 
 ## Example usage
 
+1. Create a new repo
+```bash
+mkdir my-project
+cd my-project
+git init
+```
+
+2. Add the below configuration as the file `./.synth.py`
 ```python
 #!/usr/bin/env python
 from textwrap import dedent
@@ -34,8 +24,8 @@ from synth_a_py import Dir, License, Project, SimpleFile, TomlFile, YamlFile
 
 authors = ["Joseph Egan"]
 
-project_name = "sample-project"
-project_description = "A sample project generated using synth-a-py"
+project_name = "my-project"
+project_description = "A project generated using synth-a-py"
 project_version = "0.1.0"
 
 project_import = project_name.lower().replace("-", "_")
@@ -63,7 +53,7 @@ with spec:
                     "dev-dependencies": {
                         "pytest": "^6",
                         "pyprojroot": "^0.2.0",
-                        "synth-a-py": "../synth-a-py",
+                        "synth-a-py": "*",
                     },
                 },
             },
@@ -178,6 +168,32 @@ with spec:
 
 spec.synth()
 ```
+
+3. Add execute permissions and run!
+```bash
+chmod +x ./.synth.py
+./.synth.py
+```
+
+## Goals
+
+- [ ] Use synth-a-py to manage project configs
+  - Add support for:
+    - [x] LICENSE
+    - [x] TOML (for pyproject.toml)
+    - [x] YAML (for GitHub Actions config)
+      - [ ] GitHub Action workflow?
+    - [x] INI (for flake8/mypy config)
+    - [ ] Makefile
+    - [ ] .gitignore
+  - Add ./synth.py
+- Templates:
+  - [ ] Poetry
+  - [ ] setup.py
+  - [ ] Pipenv
+- In-repo examples:
+  - [ ] Minimal
+  - [ ] Monorepo
 
 ## Updating project config
 
