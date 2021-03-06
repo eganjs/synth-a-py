@@ -14,7 +14,7 @@ Project configuration as code
       - [ ] GitHub Action workflow?
     - [x] INI (for flake8/mypy config)
     - [ ] Makefile
-    - [ ] .gitignore
+    - [x] .gitignore
   - Add ./synth.py
 - Templates:
   - [ ] Poetry
@@ -72,20 +72,17 @@ with spec:
 
     License.MIT("2020", ", ".join(authors))
 
-    SimpleFile(
-        ".gitignore",
-        dedent(
-            """\
-            *.egg
-            *.egg-info/
-            *.pyc
-            .cache/
-            .idea/
-            .mypy_cache/
-            .venv/
-            dist/
-            """
-        ),
+    GitIgnore(
+      ignore=[
+        "*.egg",
+        "*.egg-info/",
+        "*.pyc",
+        ".cache/",
+        ".idea/",
+        ".mypy_cache/",
+        ".venv/",
+        "dist/",
+      ],
     )
 
     SimpleFile(
