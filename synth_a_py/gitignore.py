@@ -1,10 +1,9 @@
 from typing import List, Optional
 
 from .base import File
+from .utils import ensure_nl
 
 __all__ = ["GitIgnore"]
-
-from .utils import ensure_nl
 
 
 class GitIgnore(File):

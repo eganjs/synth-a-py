@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Callable, Dict, Iterator, Optional, Tuple, Typ
 
 from returns.functions import compose
 
-from synth_a_py.utils import init_mix_ins
+from .utils import init_mix_ins
 
 __all__ = [
     "File",
