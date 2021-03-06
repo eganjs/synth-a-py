@@ -1,4 +1,4 @@
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
 from .base import Dir, File, Project
 from .file import EmptyFile, SimpleFile
