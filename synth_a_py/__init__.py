@@ -1,7 +1,8 @@
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
 from .base import Dir, File, Project
 from .file import EmptyFile, SimpleFile
+from .gitignore import GitIgnore
 from .ini import IniFile
 from .license import License
 from .toml import TomlFile
@@ -11,6 +12,7 @@ __all__ = [
     "Dir",
     "EmptyFile",
     "File",
+    "GitIgnore",
     "IniFile",
     "License",
     "Project",

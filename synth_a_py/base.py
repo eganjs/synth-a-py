@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Callable, Dict, Iterator, Optional, Tuple, Typ
 
 from returns.functions import compose
 
+from .utils import init_mix_ins
+
 __all__ = [
     "File",
     "Project",
@@ -16,7 +18,7 @@ __all__ = [
 PathResolver = Callable[[Path], Path]
 
 
-class _FileContainerMixin:
+class _FileContainerMixIn:
     def __init__(self) -> None:
         self.__store: Dict[str, Union[File, Dir]] = dict()
 
@@ -37,30 +39,33 @@ class _FileContainerMixin:
                 for subpath_resolver, subitem in item.walk():
                     yield compose(path_resolver, subpath_resolver), subitem
 
+    def subpaths(self) -> Iterator[str]:
+        return (str(path_resolver(Path("."))) for path_resolver, _ in self.walk())
+
 
 if TYPE_CHECKING:
-    _ContextToken = Token[Optional[_FileContainerMixin]]
+    _ContextToken = Token[Optional[_FileContainerMixIn]]
 else:
     _ContextToken = Token
 
-__context: ContextVar[Optional[_FileContainerMixin]] = ContextVar(
+__context: ContextVar[Optional[_FileContainerMixIn]] = ContextVar(
     "__context", default=None
 )
 
 
-def _context_get() -> _FileContainerMixin:
+def _context_get() -> _FileContainerMixIn:
     project = __context.get()
     assert project is not None
     return project
 
 
-def _context_set_root(value: _FileContainerMixin) -> _ContextToken:
+def _context_set_root(value: _FileContainerMixIn) -> _ContextToken:
     project = __context.get()
     assert project is None
     return __context.set(value)
 
 
-def _context_set(value: _FileContainerMixin) -> _ContextToken:
+def _context_set(value: _FileContainerMixIn) -> _ContextToken:
     project = __context.get()
     assert project is not None
     return __context.set(value)
@@ -72,20 +77,27 @@ def _context_reset(token: _ContextToken) -> None:
     __context.reset(token)
 
 
-class File:
-    def __init__(self, name: str):
+class _ChildMixIn:
+    def __init__(self) -> None:
+        self.parent = _context_get()
+        assert isinstance(self, File) or isinstance(self, Dir)
+        self.parent.add(self)
+
+
+class File(_ChildMixIn):
+    def __init__(self, name: str) -> None:
         self.name = name
-        _context_get().add(self)
+        init_mix_ins(self, File)
 
     @abstractmethod
     def synth_content(self) -> str:
         ...
 
 
-class _ContextMixin(_FileContainerMixin):
+class _ContextMixIn(_FileContainerMixIn):
     def __init__(self) -> None:
-        super().__init__()
         self.__context_token: Optional[_ContextToken] = None
+        init_mix_ins(self, _ContextMixIn)
 
     def __enter__(self) -> None:
         assert self.__context_token is None
@@ -105,7 +117,7 @@ class _ContextMixin(_FileContainerMixin):
         self.__context_token = None
 
 
-class Project(_ContextMixin):
+class Project(_ContextMixIn):
     def synth(self, root: Optional[Path] = None) -> None:
         if root is None:
             root = Path.cwd()
@@ -126,8 +138,7 @@ class Project(_ContextMixin):
             path.chmod(0o444)
 
 
-class Dir(_ContextMixin):
+class Dir(_ContextMixIn, _ChildMixIn):
     def __init__(self, name: str) -> None:
-        super().__init__()
         self.name = name
-        _context_get().add(self)
+        init_mix_ins(self, Dir)
