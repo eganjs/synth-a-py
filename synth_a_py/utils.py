@@ -4,7 +4,9 @@ __all__ = [
 ]
 
 from inspect import Parameter, Signature, signature
-from typing import Any, Final
+from typing import Any
+
+from typing_extensions import Final
 
 
 def ensure_nl(s: str) -> str:
