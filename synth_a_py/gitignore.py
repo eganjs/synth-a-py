@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List, Optional
 
 from .base import File
@@ -22,13 +23,10 @@ class GitIgnore(File):
                 [
                     *self.ignore,
                     *(
-                        f"!{path}"
-                        for allow_provider in [
-                            self.parent.subpaths(),
-                            self.allow,
-                        ]
-                        for path in allow_provider
+                        f"!{'/'.join(Path(path).parts)}"
+                        for path in self.parent.subpaths()
                     ),
+                    *(f"!{path}" for path in self.allow),
                 ]
             )
         )
