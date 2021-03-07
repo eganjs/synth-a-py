@@ -4,6 +4,8 @@ from pathlib import Path
 from types import TracebackType
 from typing import Callable, Dict, Iterator, Optional, Tuple, Type, Union
 
+from returns.functions import compose
+
 __all__ = [
     "File",
     "Project",
@@ -63,7 +65,7 @@ class Container(ABC):
 
             if isinstance(item, Container):
                 for subpath_resolver, subitem in item.walk():
-                    yield lambda p: path_resolver(subpath_resolver(p)), subitem
+                    yield compose(path_resolver, subpath_resolver), subitem
             else:
                 yield path_resolver, item
 
