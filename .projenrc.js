@@ -211,6 +211,7 @@ class PoetryProject extends Project {
             readme: "README.md",
             build: {
               script: "build.py",
+              "generate-setup-file": false,
             },
             dependencies: options.dependencies,
             ["dev-dependencies"]: {
