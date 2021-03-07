@@ -193,7 +193,7 @@ class PoetryProject extends Project {
               black: "^20.8b1",
               flake8: "^3.8.4",
               isort: "^5.6",
-              mypy: "^0.790",
+              mypy: "^0.812",
               pyprojroot: "^0.2.0",
               pytest: "^6",
               toml: "^0.10.1",

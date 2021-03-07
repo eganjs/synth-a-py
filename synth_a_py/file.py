@@ -1,7 +1,7 @@
 from typing import Tuple, Union
 
-from .base import File
-from .utils import ensure_nl
+from synth_a_py.base import File
+from synth_a_py.utils import ensure_nl
 
 __all__ = [
     "EmptyFile",

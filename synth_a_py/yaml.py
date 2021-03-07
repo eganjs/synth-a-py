@@ -5,7 +5,7 @@ from ruamel.yaml.compat import StringIO
 from ruamel.yaml.main import YAML
 from ruamel.yaml.scalarstring import walk_tree as insert_multiline_literals_inplace
 
-from .base import File
+from synth_a_py.base import File
 
 __all__ = ["YamlFile"]
 

@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import List, Optional
 
-from .base import File
-from .utils import ensure_nl
+from synth_a_py.base import File
+from synth_a_py.utils import ensure_nl
 
 __all__ = ["GitIgnore"]
 
@@ -22,11 +22,11 @@ class GitIgnore(File):
             "\n".join(
                 [
                     *self.ignore,
-                    *(
+                    *[
                         f"!{'/'.join(Path(path).parts)}"
                         for path in self.parent.subpaths()
-                    ),
-                    *(f"!{path}" for path in self.allow),
+                    ],
+                    *[f"!{path}" for path in self.allow],
                 ]
             )
         )

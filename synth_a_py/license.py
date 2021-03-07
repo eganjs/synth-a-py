@@ -3,7 +3,7 @@ from typing import Type
 
 from typing_extensions import Literal
 
-from .base import File
+from synth_a_py.base import File
 
 __all__ = ["License"]
 

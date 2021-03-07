@@ -2,7 +2,7 @@ from typing import Any
 
 import toml
 
-from .base import File
+from synth_a_py.base import File
 
 __all__ = ["TomlFile"]
 
