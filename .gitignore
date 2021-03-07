@@ -2,11 +2,13 @@
 *.egg
 *.egg-info/
 *.pyc
+*.so
 .cache/
 .idea/
 .mypy_cache/
 .venv/
 dist/
+build/
 node_modules/
 !/synth_a_py/py.typed
 !/tests/__init__.py
@@ -14,6 +16,7 @@ node_modules/
 !/stubs/pyprojroot.pyi
 !/.flake8
 !/.mypy.ini
+!/build.py
 !/pyproject.toml
 !/poetry.toml
 !/LICENSE

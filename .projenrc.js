@@ -16,7 +16,7 @@ class File extends FileBase {
   }
 
   synthesizeContent(resolver) {
-    return `${this.content.map(e => e + "\n").join("")}`;
+    return `${this.content.map((e) => e + "\n").join("")}`;
   }
 }
 
@@ -121,11 +121,13 @@ class PoetryProject extends Project {
       "*.egg",
       "*.egg-info/",
       "*.pyc",
+      "*.so",
       ".cache/",
       ".idea/",
       ".mypy_cache/",
       ".venv/",
       "dist/",
+      "build/",
       "node_modules/",
     );
 
@@ -173,6 +175,25 @@ class PoetryProject extends Project {
       ],
     });
 
+    new File(this, "build.py", {
+      content: [
+        "from typing import Any, Dict",
+        "",
+        "from mypyc.build import mypycify  # type: ignore",
+        "",
+        "",
+        "def build(setup_kwargs: Dict[str, Any]) -> Dict[str, Any]:",
+        "    setup_kwargs.update({",
+        '        "ext_modules": mypycify(["synth_a_py"], opt_level="3")',
+        "    })",
+        "    return setup_kwargs",
+        "",
+        "",
+        'if __name__ == "__main__":',
+        "    print(build({}))",
+      ],
+    });
+
     new TomlFile(this, "pyproject.toml", {
       obj: {
         ["build-system"]: {
@@ -188,6 +209,9 @@ class PoetryProject extends Project {
             license: options.license,
             repository: options.repository,
             readme: "README.md",
+            build: {
+              script: "build.py",
+            },
             dependencies: options.dependencies,
             ["dev-dependencies"]: {
               black: "^20.8b1",

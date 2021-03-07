@@ -11,8 +11,8 @@ license = "MIT"
 repository = "https://github.com/eganjs/synth-a-py"
 readme = "README.md"
 
-[tool.poetry.build]
-script = "build.py"
+  [tool.poetry.build]
+  script = "build.py"
 
   [tool.poetry.dependencies]
   python = "^3.6"
