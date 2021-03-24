@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
 from contextvars import ContextVar, Token
 from pathlib import Path
 from types import TracebackType
@@ -10,6 +11,7 @@ __all__ = [
     "Project",
     "Dir",
     "File",
+    "auto_synth",
 ]
 
 
@@ -72,9 +74,9 @@ class Container(ABC):
     def subpaths(self) -> Iterator[str]:
         return (str(path_resolver(Path("."))) for path_resolver, _ in self.walk())
 
-    def __enter__(self) -> None:
-        assert self._context_token is None
-        self._context_token = _context_set(self)
+    @abstractmethod
+    def __enter__(self) -> "Container":
+        ...
 
     def __exit__(
         self,
@@ -88,9 +90,10 @@ class Container(ABC):
 
 
 class Project(Container):
-    def __enter__(self) -> None:
+    def __enter__(self) -> "Project":
         assert self._context_token is None
         self._context_token = _context_set_root(self)
+        return self
 
     def synth(self, root: Optional[Path] = None) -> None:
         if root is None:
@@ -118,6 +121,11 @@ class Dir(Container):
         self.name = name
         _context_get().add(self)
 
+    def __enter__(self) -> "Dir":
+        assert self._context_token is None
+        self._context_token = _context_set(self)
+        return self
+
 
 class File:
     def __init__(self, name: str) -> None:
@@ -128,3 +136,13 @@ class File:
     @abstractmethod
     def synth_content(self) -> str:
         ...
+
+
+@contextmanager
+def auto_synth(root: Optional[Path] = None) -> Iterator[Project]:
+    spec = Project()
+
+    with spec:
+        yield spec
+
+    spec.synth(root)

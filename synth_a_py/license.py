@@ -1,3 +1,4 @@
+from abc import ABC
 from textwrap import dedent
 from typing import Type
 
@@ -5,17 +6,20 @@ from typing_extensions import Literal
 
 from .base import File
 
-__all__ = ["License"]
+__all__ = [
+    "LicenseBase",
+    "License",
+]
 
 
-class _License(File):
+class LicenseBase(File, ABC):
     def __init__(self, copyright_period: str, copyright_holders: str):
         super().__init__("LICENSE")
         self.copyright_period = copyright_period
         self.copyright_holders = copyright_holders
 
 
-class _ApacheLicense(_License):
+class _ApacheLicense(LicenseBase):
     def __init__(
         self, version: Literal["2.0"], copyright_period: str, copyright_holders: str
     ) -> None:
@@ -227,7 +231,7 @@ class _ApacheLicense(_License):
 """  # noqa: E501
 
 
-class _MITLicense(_License):
+class _MITLicense(LicenseBase):
     def synth_content(self) -> str:
         return dedent(
             f"""\
