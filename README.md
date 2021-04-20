@@ -4,7 +4,7 @@
 
 Daring to tackle the problem of complex project configuration through code!
 
-_synth-a-py_ provides APIs to easily describe and compose configuration files, enabling complete configuration management for projects in Python :snake:
+_synth-a-py_ provides APIs to describe and compose configuration files, enabling complete configuration management for projects in Python :snake:
 
 ## Example usage
 
