@@ -1,4 +1,6 @@
-from typing import Dict, List, Type, TypedDict, Union
+from typing import Dict, List, Type, Union
+
+from typing_extensions import TypedDict
 
 __all__ = [
     "ManagableDependencyDict",

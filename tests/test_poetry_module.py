@@ -1,6 +1,8 @@
 from pathlib import Path
 from textwrap import dedent
-from typing import List, TypedDict
+from typing import List
+
+from typing_extensions import TypedDict
 
 from synth_a_py import Dir, PoetryModule, auto_synth
 from synth_a_py.poetry.versions import DependencyDict, Managed
