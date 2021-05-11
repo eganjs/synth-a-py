@@ -1,12 +1,12 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import IniFile, Project
+from synth_a_py import IniFile
+from synth_a_py.base import synth
 
 
 def test_ini(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         IniFile(
             ".mypy.ini",
             {
@@ -17,8 +17,6 @@ def test_ini(tmp_path: Path) -> None:
                 },
             },
         )
-
-    spec.synth(tmp_path)
 
     assert (tmp_path / ".mypy.ini").read_text() == dedent(
         """\

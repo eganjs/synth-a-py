@@ -1,6 +1,6 @@
 __version__ = "1.6.0"
 
-from .base import Dir, File, Project
+from .base import Dir, File, Project, synth
 from .file import EmptyFile, SimpleFile
 from .gitignore import GitIgnore
 from .ini import IniFile
@@ -19,4 +19,5 @@ __all__ = [
     "SimpleFile",
     "TomlFile",
     "YamlFile",
+    "synth",
 ]

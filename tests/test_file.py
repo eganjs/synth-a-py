@@ -1,15 +1,13 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import EmptyFile, Project, SimpleFile
+from synth_a_py import EmptyFile, SimpleFile
+from synth_a_py.base import synth
 
 
 def test_empty_file(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         EmptyFile("empty-file")
-
-    spec.synth(tmp_path)
 
     file_path = tmp_path / "empty-file"
     assert file_path.stat().st_mode & 0o777 == 0o444
@@ -17,11 +15,8 @@ def test_empty_file(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_string(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         SimpleFile("file", "test content\n")
-
-    spec.synth(tmp_path)
 
     file_path = tmp_path / "file"
     assert file_path.stat().st_mode & 0o777 == 0o444
@@ -29,11 +24,8 @@ def test_simple_file_from_string(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_string_with_no_new_line(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         SimpleFile("file", "test content")
-
-    spec.synth(tmp_path)
 
     file_path = tmp_path / "file"
     assert file_path.stat().st_mode & 0o777 == 0o444
@@ -41,8 +33,7 @@ def test_simple_file_from_string_with_no_new_line(tmp_path: Path) -> None:
 
 
 def test_simple_file_from_list(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         SimpleFile(
             "file",
             (
@@ -53,8 +44,6 @@ def test_simple_file_from_list(tmp_path: Path) -> None:
                 "fermentum cursus turpis",
             ),
         )
-
-    spec.synth(tmp_path)
 
     file_path = tmp_path / "file"
     assert file_path.stat().st_mode & 0o777 == 0o444

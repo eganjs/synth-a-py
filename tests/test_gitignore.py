@@ -1,12 +1,12 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import Dir, GitIgnore, Project, SimpleFile
+from synth_a_py import Dir, GitIgnore, SimpleFile
+from synth_a_py.base import synth
 
 
 def test_gitignore(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         GitIgnore(
             ignore=[
                 ".venv/",
@@ -28,8 +28,6 @@ def test_gitignore(tmp_path: Path) -> None:
                     """
                 ),
             )
-
-    spec.synth(tmp_path)
 
     assert (tmp_path / ".gitignore").read_text() == dedent(
         """\

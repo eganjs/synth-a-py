@@ -30,7 +30,7 @@ Project configuration as code
 #!/usr/bin/env python
 from textwrap import dedent
 
-from synth_a_py import Dir, License, Project, SimpleFile, TomlFile, YamlFile
+from synth_a_py import Dir, GitIgnore, License, SimpleFile, TomlFile, YamlFile, synth
 
 authors = ["Joseph Egan"]
 
@@ -40,8 +40,7 @@ project_version = "0.1.0"
 
 project_import = project_name.lower().replace("-", "_")
 
-spec = Project()
-with spec:
+with synth():
 
     TomlFile(
         "pyproject.toml",
@@ -172,8 +171,6 @@ with spec:
                     },
                 },
             )
-
-spec.synth()
 ```
 
 ## Updating project config

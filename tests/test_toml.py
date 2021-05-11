@@ -1,12 +1,12 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import Project, TomlFile
+from synth_a_py import TomlFile
+from synth_a_py.base import synth
 
 
 def test_toml(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         TomlFile(
             "pyproject.toml",
             {
@@ -32,8 +32,6 @@ def test_toml(tmp_path: Path) -> None:
                 },
             },
         )
-
-    spec.synth(tmp_path)
 
     assert (tmp_path / "pyproject.toml").read_text() == dedent(
         """\

@@ -1,15 +1,14 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import License, Project
+from synth_a_py import License
+from synth_a_py.base import synth
 
 
 def test_apache_license_2_0(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         License.Apache("2.0", "2020", "Joseph Egan")
 
-    spec.synth(tmp_path)
     assert (
         (tmp_path / "LICENSE").read_text()
         == """\
@@ -219,11 +218,9 @@ def test_apache_license_2_0(tmp_path: Path) -> None:
 
 
 def test_mit_license(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         License.MIT("2020", "Joseph Egan")
 
-    spec.synth(tmp_path)
     assert (tmp_path / "LICENSE").read_text() == dedent(
         """\
         Copyright © 2020 Joseph Egan

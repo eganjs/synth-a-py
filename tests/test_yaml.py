@@ -1,12 +1,12 @@
 from pathlib import Path
 from textwrap import dedent
 
-from synth_a_py import Dir, Project, YamlFile
+from synth_a_py import Dir, YamlFile
+from synth_a_py.base import synth
 
 
 def test_yaml(tmp_path: Path) -> None:
-    spec = Project()
-    with spec:
+    with synth(to=tmp_path):
         with Dir(".github"):
             with Dir("workflows"):
                 YamlFile(
@@ -48,8 +48,6 @@ def test_yaml(tmp_path: Path) -> None:
                         },
                     },
                 )
-
-    spec.synth(tmp_path)
 
     assert (tmp_path / ".github" / "workflows" / "ci.yaml").read_text() == dedent(
         """\
